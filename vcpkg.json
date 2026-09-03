@@ -1,0 +1,34 @@
+{
+  "name" : "computer-graphics",
+  "version" : "1.0",
+  "dependencies" : [ {
+    "name" : "imgui",
+    "features" : [ "opengl3-binding" ]
+  }, {
+    "name" : "glm",
+    "version>=" : "1.0.3"
+  },  {
+    "name" : "glad",
+    "version>=" : "0.1.36"
+  }, {
+    "name" : "spdlog",
+    "version>=" : "1.17.0#1"
+  }, {
+    "name" : "imgui-sfml",
+    "version>=" : "3.0#3"
+  }, {
+    "name" : "sfml",
+    "version>=" : "3.0.2"
+  } ],
+  "builtin-baseline" : "7ff71c68261ecf3b60cdb8772f2e6759ee0a71b1",
+  "overrides": [
+    {
+      "name": "imgui",
+      "version" : "1.91.9#0"
+    },
+    {
+      "name": "imgui-sfml",
+      "version" : "3.0#2"
+    }
+  ]
+}
