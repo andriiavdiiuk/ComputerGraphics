@@ -30,7 +30,7 @@ struct EuclideanTransformation
 
     static const EuclideanTransformation Default;
     [[nodiscard]] glm::mat3 getMatrix() const;
-    [[nodiscard]] Mesh getRotationPointMesh() const;
+    [[nodiscard]] Mesh getRotationPointMesh(float radius = 3, float width = 5) const;
 };
 
 struct ProjectiveTransformation

@@ -21,6 +21,9 @@ public:
     float spacing_y;
     float lines_x;
     float lines_y;
+    float negative_lines_x = 0;
+    float negative_lines_y = 0;
+    bool hide_labels = false;
 
     float line_width;
     glm::vec4 color;

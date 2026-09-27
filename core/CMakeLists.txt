@@ -19,6 +19,8 @@ add_library(core ${SOURCES}
         src/transformations/Transformation.cpp
         src/Application.hpp
         src/Application.cpp
+        src/math/Derivative.cpp
+        src/math/Derivative.hpp
 )
 
 add_custom_target(copy_resources ALL

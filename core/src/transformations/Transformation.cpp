@@ -89,14 +89,14 @@ glm::mat3 ProjectiveTransformation::getMatrix() const
     return m;
 }
 
-Mesh EuclideanTransformation::getRotationPointMesh() const
+Mesh EuclideanTransformation::getRotationPointMesh(float radius , float width) const
 {
     const Circle c = {
         rotationPoint,
-        3,
-        5,
+        radius,
+        width,
         32,
-        {0,0,0,1}
+        {0, 0, 0, 1}
     };
     return generateMesh(c);
 }
@@ -121,7 +121,7 @@ void resizeLinePoints(glm::vec2& pointA, glm::vec2& pointB, float newLength)
 {
     newLength = std::max(newLength, 0.001f);
 
-    const glm::vec2 midpoint = (pointA + pointB) / 2.0f ;
+    const glm::vec2 midpoint = (pointA + pointB) / 2.0f;
     const glm::vec2 directionA = glm::normalize(pointA - midpoint);
     const glm::vec2 directionB = glm::normalize(pointB - midpoint);
 

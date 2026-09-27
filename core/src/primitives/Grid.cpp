@@ -3,17 +3,19 @@
 static void addGridLines(
     GridDrawData& data,
     const Grid& grid,
+    const glm::vec2& point_x_start,
     const glm::vec2& point_x_end,
+    const glm::vec2& point_y_start,
     const glm::vec2& point_y_end
 )
 {
     // Vertical lines
-    for (float i = 0; i < grid.lines_x; i++)
+    for (int i = -grid.negative_lines_x; i <= grid.lines_x; i++)
     {
         const float x = grid.point_origin.x + i * grid.spacing_x;
 
         data.lines.push_back({
-            {x, grid.point_origin.y},
+            {x, point_y_start.y},
             {x, point_y_end.y},
             grid.line_width,
             grid.color
@@ -21,12 +23,13 @@ static void addGridLines(
     }
 
     // Horizontal lines
-    for (float i = 0; i < grid.lines_y; i++)
+    for (int i = -grid.negative_lines_y; i <= grid.lines_y; i++)
     {
-        const float y = grid.point_origin.y + i * grid.spacing_y;
+        const float y =
+            grid.point_origin.y + i * grid.spacing_y;
 
         data.lines.push_back({
-            {grid.point_origin.x, y},
+            {point_x_start.x, y},
             {point_x_end.x, y},
             grid.line_width,
             grid.color
@@ -37,15 +40,17 @@ static void addGridLines(
 static void addAxes(
     GridDrawData& data,
     const Grid& grid,
+    const glm::vec2& x_start,
     const glm::vec2& x_end,
+    const glm::vec2& y_start,
     const glm::vec2& y_end
 )
 {
-    const float axis_width = grid.line_width ;
+    const float axis_width = grid.line_width * 2;
 
     // X axis
     data.lines.emplace_back(
-        grid.point_origin,
+        x_start,
         x_end,
         axis_width,
         grid.color
@@ -75,7 +80,7 @@ static void addAxes(
 
     // Y axis
     data.lines.emplace_back(
-        grid.point_origin,
+        y_start,
         y_end,
         axis_width,
         grid.color
@@ -198,6 +203,31 @@ GridDrawData Grid::toGridDrawData() const
         point_origin.y + spacing_y * lines_y
     };
 
+    const glm::vec2 point_x_start{
+        point_origin.x - spacing_x * negative_lines_x,
+        point_origin.y
+    };
+
+    const glm::vec2 point_y_start{
+        point_origin.x,
+        point_origin.y - spacing_y * negative_lines_y
+    };
+
+    const glm::vec2 x_start{
+        negative_lines_x > 0
+            ? point_x_start.x - spacing_x
+            : point_origin.x,
+        point_origin.y
+    };
+
+    const glm::vec2 y_start{
+        point_origin.x,
+        negative_lines_y > 0
+            ? point_y_start.y - spacing_y
+            : point_origin.y
+    };
+
+
     const glm::vec2 x_end{
         point_x_end.x + spacing_x,
         point_x_end.y
@@ -208,8 +238,8 @@ GridDrawData Grid::toGridDrawData() const
         point_y_end.y + spacing_y
     };
 
-    addGridLines(data, *this, point_x_end, point_y_end);
-    addAxes(data, *this, x_end, y_end);
+    addGridLines(data, *this, point_x_start, point_x_end, point_y_start, point_y_end);
+    addAxes(data, *this, x_start, x_end, y_start, y_end);
     addLabels(data, *this, font, x_end, y_end);
 
     return data;
