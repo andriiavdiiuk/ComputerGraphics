@@ -1,5 +1,4 @@
 ﻿#include "Figure.hpp"
-#include "Line.hpp"
 
 constexpr Figure default_figure = {
     .center_point = {32, 35},
@@ -84,7 +83,6 @@ FigureDrawData Figure::toFigureDrawData() const
             .segments = 32,
             .color = color
         },
-
         .line_ab = {
             point_a,
             point_b,

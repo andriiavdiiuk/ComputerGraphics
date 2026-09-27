@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include <ostream>
 
-#include "Application.hpp"
+#include "Lab1Application.hpp"
 
 int main()
 {
@@ -21,6 +21,6 @@ int main()
         settings
     );
 
-    auto app = Application(std::move(window));
+    auto app = Lab1Application(std::move(window));
     return app.run();
 }

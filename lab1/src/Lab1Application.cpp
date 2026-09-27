@@ -1,14 +1,13 @@
 ﻿#include <glad/glad.h>
 #include <SFML/OpenGL.hpp>
-#include "Application.hpp"
+#include "Lab1Application.hpp"
 #include <imgui.h>
 #include "utils/FileUtils.hpp"
-#include "models/Grid.hpp"
+#include "primitives/Grid.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <spdlog/spdlog.h>
 #include <imgui-SFML.h>
 #include <iostream>
-
 #include "models/Figure.hpp"
 #include "transformations/Transformation.hpp"
 #include "ui/Menu.hpp"
@@ -47,45 +46,17 @@ void updateGridMeshes(const Grid& grid, Mesh& gridMesh, std::vector<sf::Text>& g
 }
 
 
-Application::Application(std::unique_ptr<sf::RenderWindow> window_ptr) :
-    window(std::move(window_ptr)),
-    running(false),
-    font("./resources/fonts/OpenSans.ttf")
+Lab1Application::Lab1Application(std::unique_ptr<sf::RenderWindow> window_ptr) :
+    Application(std::move(window_ptr)),
+    running(false)
 {
-
-    const auto version = gladLoadGLLoader(
-        reinterpret_cast<GLADloadproc>(sf::Context::getFunction)
-    );
-    IMGUI_CHECKVERSION();
-
-    if (!ImGui::SFML::Init(*window))
-    {
-        SPDLOG_ERROR(std::format("Failed to initialize ImGui"));
-        throw std::runtime_error("Failed to initialize ImGui");
-    }
-
-    ImGuiIO& io = ImGui::GetIO();
-
-    io.Fonts->Clear();
-    io.Fonts->AddFontFromFileTTF("./resources/fonts/OpenSans.ttf", 20.0f, nullptr, nullptr);
-
-    io.Fonts->Build();
-
-
-    ImGui::SFML::UpdateFontTexture();
-
     sf::View view = window->getDefaultView();
     const auto size = window->getSize();
     resizeView(view, size);
     window->setView(view);
 }
 
-Application::~Application()
-{
-    ImGui::SFML::Shutdown();
-}
-
-bool Application::run()
+bool Lab1Application::run()
 {
     auto view = window->getView();
     const auto size = window->getSize();

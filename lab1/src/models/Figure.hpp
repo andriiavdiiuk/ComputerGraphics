@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "Circle.hpp"
-#include "Line.hpp"
+#include "primitives/Circle.hpp"
+#include "primitives/Line.hpp"
 
 struct FigureDrawData
 {

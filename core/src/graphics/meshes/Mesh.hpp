@@ -7,7 +7,6 @@
 #include "graphics/buffers/IndexBufferObject.hpp"
 #include "graphics/buffers/VertexArrayObject.hpp"
 #include "graphics/buffers/VertexBufferObject.hpp"
-#include "transformations/Transformation.hpp"
 
 struct Mesh
 {

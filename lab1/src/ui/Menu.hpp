@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "models/Figure.hpp"
-#include "models/Grid.hpp"
-
+#include "primitives/Grid.hpp"
+#include "transformations/Transformation.hpp"
 
 void drawMenu(
     ProjectiveTransformation& projective,

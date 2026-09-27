@@ -5,13 +5,10 @@
 class Application
 {
     public:
-        Application(std::unique_ptr<sf::RenderWindow> window);
-        ~Application();
+        explicit Application(std::unique_ptr<sf::RenderWindow> window);
+        virtual ~Application();
 
-        bool run();
-
-    private:
+    protected:
         std::unique_ptr<sf::RenderWindow> window;
-        bool running;
         sf::Font font;
 };

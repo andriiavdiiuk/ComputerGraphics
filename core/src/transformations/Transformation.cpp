@@ -1,7 +1,7 @@
 ﻿#include "transformations/Transformation.hpp"
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/glm.hpp>
-#include "models/Circle.hpp"
+#include "primitives/Circle.hpp"
 #include "graphics/meshes/Mesh.hpp"
 const AffineTransformation AffineTransformation::Default{
     {0, 0},
