@@ -11,6 +11,7 @@ int main()
     settings.depthBits = 24;
     settings.stencilBits = 8;
     settings.attributeFlags = sf::ContextSettings::Attribute::Debug;
+    settings.antiAliasingLevel = 8;
 
     auto window = std::make_unique<sf::RenderWindow>(
         sf::VideoMode({1280, 720}),

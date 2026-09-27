@@ -126,7 +126,6 @@ bool Application::run()
         .color = {0.f, 0.f, 0.f, 1.f},
         .font = font
     };
-
     auto figure = Figure::Default({100, 100}, 5);
 
     std::vector<Mesh> figureMeshes;
@@ -194,6 +193,22 @@ bool Application::run()
         for (const auto& text : gridLabels)
         {
             window->draw(text, renderStates);
+        }
+
+        if (useProjective)
+        {
+            sf::CircleShape point(5.f);
+            point.setOrigin({5.f, 5.f});
+            point.setFillColor(sf::Color::Red);
+
+            point.setPosition({projective.origin.x, projective.origin.y});
+            window->draw(point);
+
+            point.setPosition({projective.xAxisEnd.x, projective.xAxisEnd.y});
+            window->draw(point);
+
+            point.setPosition({projective.yAxisEnd.x, projective.yAxisEnd.y});
+            window->draw(point);
         }
         ImGui::SFML::Render(*window);
         window->display();

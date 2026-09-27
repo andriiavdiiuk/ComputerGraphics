@@ -41,7 +41,7 @@ static void addAxes(
     const glm::vec2& y_end
 )
 {
-    const float axis_width = grid.line_width * 2;
+    const float axis_width = grid.line_width ;
 
     // X axis
     data.lines.emplace_back(
