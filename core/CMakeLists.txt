@@ -21,6 +21,10 @@ add_library(core ${SOURCES}
         src/Application.cpp
         src/math/Derivative.cpp
         src/math/Derivative.hpp
+        src/primitives/ThirdDegreeCurve.hpp
+        src/primitives/ThirdDegreeCurve.cpp
+        src/data/SvgParser.hpp
+        src/data/SvgParser.cpp
 )
 
 add_custom_target(copy_resources ALL
@@ -41,6 +45,7 @@ find_package(OpenGL REQUIRED)
 find_package(imgui REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(ImGui-SFML REQUIRED)
+find_package(NanoSVG REQUIRED)
 
 target_link_libraries(${PROJECT_NAME}
         PUBLIC
@@ -53,4 +58,5 @@ target_link_libraries(${PROJECT_NAME}
         imgui::imgui
         spdlog::spdlog
         ImGui-SFML::ImGui-SFML
+        NanoSVG::nanosvg
 )

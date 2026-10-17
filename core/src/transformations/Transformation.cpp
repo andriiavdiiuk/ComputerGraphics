@@ -3,27 +3,28 @@
 #include <glm/glm.hpp>
 #include "primitives/Circle.hpp"
 #include "graphics/meshes/Mesh.hpp"
-const AffineTransformation AffineTransformation::Default{
-    {0, 0},
-    {1, 0},
-    {0, 1},
-    {1, 1},
-    {500, 500},
-    false
-};
 
-const EuclideanTransformation EuclideanTransformation::Default{
-    {0, 0},
-    {0, 0},
-    0
-};
+AffineTransformation::AffineTransformation() :
+    origin(0,0),
+    unitX(1.0f, 0),
+    unitY(0, 1.0f),
+    scale(1.0f, 1.0f),
+    symmetryPoint(500, 500),
+    isApplySymmetry(false)
+{}
 
-const ProjectiveTransformation ProjectiveTransformation::Default{
-    {0, 0},
-    {600, 0},
-    {0, 600},
-    {1, 1, 600}
-};
+EuclideanTransformation::EuclideanTransformation() :
+    offset(0.0f, 0.0f),
+    rotationPoint(0.0f, 0.0f),
+    rotationDegrees(0)
+{}
+
+ProjectiveTransformation::ProjectiveTransformation() :
+    origin(0.0f, 0.0f),
+    xAxisEnd(600, 0.0f),
+    yAxisEnd(0, 600.0f),
+    weights(1,1, 600)
+{}
 
 glm::mat3 AffineTransformation::getMatrix() const
 {

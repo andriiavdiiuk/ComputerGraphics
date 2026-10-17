@@ -10,6 +10,8 @@ struct Line
     glm::vec2 end;
     float width{};
     glm::vec4 color;
+
+    [[nodiscard]] bool containsPoint(const glm::vec2& point) const;
 };
 
 

@@ -9,6 +9,10 @@ struct Circle
     float width;
     int segments;
     glm::vec4 color;
+    bool filled;
+
+    [[nodiscard]] bool containsPoint(const glm::vec2& point) const;
 };
 
 Mesh generateMesh(const Circle& circle);
+Mesh generateMesh(const std::vector<Circle>& circles);

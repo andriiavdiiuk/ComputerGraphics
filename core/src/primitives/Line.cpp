@@ -2,6 +2,7 @@
 #include "Line.hpp"
 
 #include <vector>
+#include <glm/geometric.hpp>
 
 static void addLineToMesh(Mesh& mesh, const Line& line)
 {
@@ -82,4 +83,27 @@ Mesh generateMesh(const std::vector<Line>& lines)
     }
 
     return mesh;
+}
+
+bool Line::containsPoint(const glm::vec2& point) const
+{
+    const glm::vec2 direction = end - start;
+    const float lengthSquared = glm::dot(direction, direction);
+
+    if (lengthSquared == 0.0f)
+    {
+        const glm::vec2 delta = point - start;
+        return glm::dot(delta, delta) <= (width * width) / 4.0f;
+    }
+
+    const float t = glm::clamp(
+        glm::dot(point - start, direction) / lengthSquared,
+        0.0f,
+        1.0f
+    );
+
+    const glm::vec2 closest = start + t * direction;
+    const glm::vec2 delta = point - closest;
+
+    return glm::dot(delta, delta) <= (width * width) / 4.0f;
 }

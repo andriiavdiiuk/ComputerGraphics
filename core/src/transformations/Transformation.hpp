@@ -17,7 +17,7 @@ struct AffineTransformation
     glm::vec2 symmetryPoint;
     bool isApplySymmetry;
 
-    static const AffineTransformation Default;
+    AffineTransformation();
     [[nodiscard]] glm::mat3 getMatrix() const;
 };
 
@@ -27,8 +27,8 @@ struct EuclideanTransformation
     glm::vec2 offset;
     glm::vec2 rotationPoint;
     float rotationDegrees;
+    EuclideanTransformation();
 
-    static const EuclideanTransformation Default;
     [[nodiscard]] glm::mat3 getMatrix() const;
     [[nodiscard]] Mesh getRotationPointMesh(float radius = 3, float width = 5) const;
 };
@@ -40,7 +40,7 @@ struct ProjectiveTransformation
     glm::vec2 yAxisEnd;
     glm::vec3 weights;
 
-    static const ProjectiveTransformation Default;
+    ProjectiveTransformation();
     [[nodiscard]] glm::mat3 getMatrix() const;
 };
 
