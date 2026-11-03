@@ -25,6 +25,7 @@ add_library(core ${SOURCES}
         src/primitives/ThirdDegreeCurve.cpp
         src/data/SvgParser.hpp
         src/data/SvgParser.cpp
+        src/utils/GlmColors.hpp
 )
 
 add_custom_target(copy_resources ALL

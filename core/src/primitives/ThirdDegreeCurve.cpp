@@ -2,12 +2,12 @@
 
 #include <glm/common.hpp>
 
-glm::vec2 evaluate(const ThirdDegreeCurvePath& curvePath, const ThirdDegreeCurve& curve, float t)
+static glm::vec2 evaluate(const ThirdDegreeCurvePath& curvePath, const ThirdDegreeCurve& curve, const float t)
 {
-    auto point_a = curvePath.points[curve.point_a].origin;
-    auto point_b = curvePath.points[curve.point_b].origin;
-    auto point_c = curvePath.points[curve.point_c].origin;
-    auto point_d = curvePath.points[curve.point_d].origin;
+    const auto point_a = curvePath.points[curve.point_a].circle.origin;
+    const auto point_b = curvePath.points[curve.point_b].circle.origin;
+    const auto point_c = curvePath.points[curve.point_c].circle.origin;
+    const auto point_d = curvePath.points[curve.point_d].circle.origin;
 
     const float n = 1 - t;
     const float n_squared = n * n;
@@ -50,10 +50,10 @@ static void appendLines(const ThirdDegreeCurvePath& curvePath, std::vector<Line>
             curve.color
         });
 
-        auto point_a = curvePath.points[curve.point_a];
-        auto point_b = curvePath.points[curve.point_b];
-        auto point_c = curvePath.points[curve.point_c];
-        auto point_d = curvePath.points[curve.point_d];
+        auto point_a = curvePath.points[curve.point_a].circle;
+        auto point_b = curvePath.points[curve.point_b].circle;
+        auto point_c = curvePath.points[curve.point_c].circle;
+        auto point_d = curvePath.points[curve.point_d].circle;
 
         controlPointLines.push_back({
             point_a.origin,
@@ -134,9 +134,9 @@ void animateCurve(
             const auto& originalPoint = originalPath.points[i];
             const auto& targetPoint = targetPath.points[i];
 
-            currentPoint.origin = glm::mix(
-                originalPoint.origin,
-                targetPoint.origin,
+            currentPoint.circle.origin = glm::mix(
+                originalPoint.circle.origin,
+                targetPoint.circle.origin,
                 t
             );
         }

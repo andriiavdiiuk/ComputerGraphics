@@ -4,6 +4,18 @@
 #include <math.h>
 
 #include "nanosvg/nanosvg.h"
+#include "utils/GlmColors.hpp"
+
+static CurvePoint makeCircle(float x, float y, glm::vec4 color)
+{
+    return {
+        Circle{
+            glm::vec2(x, y),
+            2, 2, 16, color, true
+        },
+        CurveJointType::Corner
+    };
+}
 
 ThirdDegreeCurves parseSvg(const std::string& filePath)
 {
@@ -14,13 +26,6 @@ ThirdDegreeCurves parseSvg(const std::string& filePath)
 
     if (!image)
         return result;
-
-    auto makeCircle = [](float x, float y) {
-        return Circle{
-            glm::vec2(x, y),
-            2, 2, 16, {0, 1, 0, 1}, true
-        };
-    };
 
     for (auto shape = image->shapes; shape; shape = shape->next)
     {
@@ -34,9 +39,9 @@ ThirdDegreeCurves parseSvg(const std::string& filePath)
 
             const float* first = &path->pts[0];
 
-            const size_t firstAnchor = 0;
+            constexpr size_t firstAnchor = 0;
             svgPath.points.push_back(
-                makeCircle(first[0], first[1])
+                makeCircle(first[0], first[1], colors::BLACK)
             );
 
             size_t currentAnchor = firstAnchor;
@@ -46,13 +51,13 @@ ThirdDegreeCurves parseSvg(const std::string& filePath)
                 const float* p = &path->pts[i * 2];
 
                 size_t b = svgPath.points.size();
-                svgPath.points.push_back(makeCircle(p[2], p[3]));
+                svgPath.points.push_back(makeCircle(p[2], p[3],colors::GREEN));
 
                 size_t c = svgPath.points.size();
-                svgPath.points.push_back(makeCircle(p[4], p[5]));
+                svgPath.points.push_back(makeCircle(p[4], p[5], colors::GREEN));
 
                 size_t d = svgPath.points.size();
-                svgPath.points.push_back(makeCircle(p[6], p[7]));
+                svgPath.points.push_back(makeCircle(p[6], p[7],colors::BLACK));
 
                 svgPath.curves.push_back({
                     .point_a = currentAnchor,
