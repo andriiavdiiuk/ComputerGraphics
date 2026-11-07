@@ -4,16 +4,15 @@
 
 #include "graphics/meshes/Mesh.hpp"
 
-struct Line
+struct Line2D
 {
     glm::vec2 start;
     glm::vec2 end;
     float width{};
-    glm::vec4 color;
+    glm::vec4 color{};
 
     [[nodiscard]] bool containsPoint(const glm::vec2& point) const;
 };
 
-
-Mesh generateMesh(const Line& line);
-Mesh generateMesh(const std::vector<Line> &lines);
+Mesh2D generateMesh(const Line2D& line);
+Mesh2D generateMesh(const std::vector<Line2D> &lines);

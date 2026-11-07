@@ -14,5 +14,5 @@ struct Circle
     [[nodiscard]] bool containsPoint(const glm::vec2& point) const;
 };
 
-Mesh generateMesh(const Circle& circle);
-Mesh generateMesh(const std::vector<Circle>& circles);
+Mesh2D generateMesh(const Circle& circle);
+Mesh2D generateMesh(const std::vector<Circle>& circles);

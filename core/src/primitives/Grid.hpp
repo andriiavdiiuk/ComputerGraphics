@@ -9,7 +9,7 @@
 
 struct GridDrawData
 {
-    std::vector<Line> lines;
+    std::vector<Line2D> lines;
     std::vector<sf::Text> labels;
 };
 

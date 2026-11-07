@@ -1,37 +1,37 @@
-﻿
-#include "Line.hpp"
+﻿#include "Line.hpp"
 
 #include <vector>
 #include <glm/geometric.hpp>
 
-static void addLineToMesh(Mesh& mesh, const Line& line)
+
+static glm::vec3 getNormal(const glm::vec3& direction, const glm::vec3& reference = glm::vec3(0, 1, 0))
+{
+    glm::vec3 normal = glm::cross(direction, reference);
+
+    if (glm::dot(normal, normal) < 1e-6f)
+        normal = glm::cross(direction, glm::vec3(1, 0, 0));
+
+    return glm::normalize(normal);
+}
+
+static void addLineToMesh(Mesh2D& mesh, const Line2D& line)
 {
     const glm::vec2 direction = line.end - line.start;
+    const float length = glm::length(direction);
 
-    // length of direction
-    const float length = std::sqrt(
-        direction.x * direction.x +
-        direction.y * direction.y
-    );
-
-    if (length == 0.f)
+    if (length == 0.0f)
         return;
 
-    // Normalize direction to get unit vector
-    const glm::vec2 unit_direction = direction / length;
-
-    // Perpendicular unit vector used to offset the line
-    // on both sides and give it thickness.
-    const glm::vec2 normal{
-        -unit_direction.y,
-         unit_direction.x
+    const glm::vec2 unitDirection = direction / length;
+    const glm::vec2 normal =     {
+        -direction.y,
+         direction.x
     };
 
-    const float half_width = line.width * 0.5f;
+    const float halfWidth = line.width * 0.5f;
 
-    // Extend the line along its direction to avoid gaps.
-    const glm::vec2 extension = unit_direction * half_width;
-    const glm::vec2 offset = normal * half_width;
+    const glm::vec2 extension = unitDirection * halfWidth;
+    const glm::vec2 offset = normal * halfWidth;
 
     const glm::vec2 start = line.start - extension;
     const glm::vec2 end = line.end + extension;
@@ -67,17 +67,19 @@ static void addLineToMesh(Mesh& mesh, const Line& line)
 }
 
 
-Mesh generateMesh(const Line& line)
+Mesh2D generateMesh(const Line2D& line)
 {
-    Mesh mesh;
+    Mesh2D mesh;
     addLineToMesh(mesh, line);
     return mesh;
 }
-Mesh generateMesh(const std::vector<Line>& lines)
-{
-    Mesh mesh;
 
-    for (const Line& line : lines)
+
+Mesh2D generateMesh(const std::vector<Line2D>& lines)
+{
+    Mesh2D mesh;
+
+    for (const Line2D& line : lines)
     {
         addLineToMesh(mesh, line);
     }
@@ -85,7 +87,8 @@ Mesh generateMesh(const std::vector<Line>& lines)
     return mesh;
 }
 
-bool Line::containsPoint(const glm::vec2& point) const
+
+bool Line2D::containsPoint(const glm::vec2& point) const
 {
     const glm::vec2 direction = end - start;
     const float lengthSquared = glm::dot(direction, direction);

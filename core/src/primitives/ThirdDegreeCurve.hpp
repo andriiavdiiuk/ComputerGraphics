@@ -19,9 +19,9 @@ struct CurvePoint
 
 struct ThirdDegreeCurveRenderData
 {
-    Mesh curveMesh;
-    Mesh controlPointsMesh;
-    Mesh controlPointLinesMesh;
+    Mesh2D curveMesh;
+    Mesh2D controlPointsMesh;
+    Mesh2D controlPointLinesMesh;
 };
 
 struct ThirdDegreeCurve

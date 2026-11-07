@@ -26,6 +26,9 @@ add_library(core ${SOURCES}
         src/data/SvgParser.hpp
         src/data/SvgParser.cpp
         src/utils/GlmColors.hpp
+        src/primitives/Line3D.cpp
+        src/primitives/Line3D.hpp
+        src/utils/UiUtils.hpp
 )
 
 add_custom_target(copy_resources ALL

@@ -5,7 +5,7 @@
 
 #include "graphics/meshes/Mesh.hpp"
 
-static void appendFilledCircle(const Circle& circle, Mesh& mesh)
+static void appendFilledCircle(const Circle& circle, Mesh2D& mesh)
 {
     const auto baseIndex = static_cast<unsigned int>(mesh.vertices.size());
 
@@ -38,7 +38,7 @@ static void appendFilledCircle(const Circle& circle, Mesh& mesh)
     }
 }
 
-static void appendCircle(const Circle& circle, Mesh& mesh)
+static void appendCircle(const Circle& circle, Mesh2D& mesh)
 {
     const float half_width = circle.width / 2.f;
     const float outer_radius = circle.radius + half_width;
@@ -97,9 +97,9 @@ static void appendCircle(const Circle& circle, Mesh& mesh)
     }
 }
 
-Mesh generateMesh(const Circle& circle)
+Mesh2D generateMesh(const Circle& circle)
 {
-    Mesh mesh;
+    Mesh2D mesh;
 
     if (circle.filled)
         appendFilledCircle(circle, mesh);
@@ -108,9 +108,9 @@ Mesh generateMesh(const Circle& circle)
     return mesh;
 }
 
-Mesh generateMesh(const std::vector<Circle>& circles)
+Mesh2D generateMesh(const std::vector<Circle>& circles)
 {
-    Mesh mesh;
+    Mesh2D mesh;
 
     for (const auto& circle : circles)
     {

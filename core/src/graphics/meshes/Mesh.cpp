@@ -1,7 +1,26 @@
 ﻿#include "graphics/meshes/Mesh.hpp"
+
+#include <glm/geometric.hpp>
+
 #include "transformations/Transformation.hpp"
 
-void Mesh::upload() const
+template <typename Ver>
+constexpr GLint getDimensions()
+{
+    using T = decltype(std::declval<Ver>().position);
+
+    if constexpr (std::is_same_v<T, glm::vec2>)
+        return 2;
+    else if constexpr (std::is_same_v<T, glm::vec3>)
+        return 3;
+    else
+        static_assert(sizeof(T) == 0, "Unsupported position type");
+
+    return 0;
+}
+
+template <typename Ver>
+void Mesh<Ver>::upload() const
 {
     vao.bind();
 
@@ -10,16 +29,16 @@ void Mesh::upload() const
 
     ebo.bind();
     IndexBufferObject::setBufferData(indices.data(), indices.size());
-
+    const auto positionComponents = getDimensions<Ver>();
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(
         0,
-        2,
+        positionComponents,
         GL_FLOAT,
         GL_FALSE,
-        sizeof(Vertex),
-        reinterpret_cast<void*>(offsetof(Vertex, position))
+        sizeof(Ver),
+        reinterpret_cast<void*>(offsetof(Ver, position))
     );
 
     glEnableVertexAttribArray(1);
@@ -28,8 +47,8 @@ void Mesh::upload() const
         4,
         GL_FLOAT,
         GL_FALSE,
-        sizeof(Vertex),
-        reinterpret_cast<void*>(offsetof(Vertex, color))
+        sizeof(Ver),
+        reinterpret_cast<void*>(offsetof(Ver, color))
     );
 
     VertexBufferObject::unbind();
@@ -37,12 +56,12 @@ void Mesh::upload() const
     VertexArrayObject::unbind();
 }
 
-void Mesh::render(sf::Shader& shader, const sf::View& view, const sf::Glsl::Mat3& transform) const
+template <typename Ver>
+void Mesh<Ver>::render(sf::Shader& shader, const sf::Glsl::Mat4& projectionView, const sf::Glsl::Mat4& model) const
 {
     sf::Shader::bind(&shader);
-    const sf::Glsl::Mat4 viewMatrix(view.getTransform());
-    shader.setUniform("view", viewMatrix);
-    shader.setUniform("transformation", transform);
+    shader.setUniform("projectionView", projectionView);
+    shader.setUniform("model", model);
     vao.bind();
     ebo.bind();
 
@@ -56,3 +75,6 @@ void Mesh::render(sf::Shader& shader, const sf::View& view, const sf::Glsl::Mat3
     IndexBufferObject::unbind();
     VertexArrayObject::unbind();
 }
+
+template struct Mesh<Vertex<glm::vec2>>;
+template struct Mesh<Vertex<glm::vec3>>;

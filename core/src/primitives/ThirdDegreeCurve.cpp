@@ -21,8 +21,8 @@ static glm::vec2 evaluate(const ThirdDegreeCurvePath& curvePath, const ThirdDegr
     return numerator / denominator;
 }
 
-static void appendLines(const ThirdDegreeCurvePath& curvePath, std::vector<Line>& curveLines,
-                        std::vector<Line>& controlPointLines,
+static void appendLines(const ThirdDegreeCurvePath& curvePath, std::vector<Line2D>& curveLines,
+                        std::vector<Line2D>& controlPointLines,
                         std::vector<Circle>& controlPoints)
 {
     for (auto curve : curvePath.curves)
@@ -78,8 +78,8 @@ static void appendLines(const ThirdDegreeCurvePath& curvePath, std::vector<Line>
 
 ThirdDegreeCurveRenderData generateMesh(const ThirdDegreeCurvePath& curve)
 {
-    std::vector<Line> curveLines;
-    std::vector<Line> controlLines;
+    std::vector<Line2D> curveLines;
+    std::vector<Line2D> controlLines;
     std::vector<Circle> controlPoints;
     appendLines(curve, curveLines, controlLines, controlPoints);
     return {
@@ -91,8 +91,8 @@ ThirdDegreeCurveRenderData generateMesh(const ThirdDegreeCurvePath& curve)
 
 ThirdDegreeCurveRenderData generateMesh(const ThirdDegreeCurves& curves)
 {
-    std::vector<Line> curveLines;
-    std::vector<Line> controlLines;
+    std::vector<Line2D> curveLines;
+    std::vector<Line2D> controlLines;
     std::vector<Circle> controlPoints;
     for (const auto& curvePath : curves.paths)
         appendLines(curvePath, curveLines, controlLines, controlPoints);

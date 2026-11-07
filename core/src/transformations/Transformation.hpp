@@ -6,7 +6,6 @@
 #include <SFML/Graphics/Transform.hpp>
 #include "graphics/meshes/Mesh.hpp"
 
-struct Mesh;
 
 struct AffineTransformation
 {
@@ -30,7 +29,7 @@ struct EuclideanTransformation
     EuclideanTransformation();
 
     [[nodiscard]] glm::mat3 getMatrix() const;
-    [[nodiscard]] Mesh getRotationPointMesh(float radius = 3, float width = 5) const;
+    [[nodiscard]] Mesh2D getRotationPointMesh(float radius = 3, float width = 5) const;
 };
 
 struct ProjectiveTransformation
@@ -45,6 +44,27 @@ struct ProjectiveTransformation
 };
 
 
-sf::Glsl::Mat3 toSfmlMat3(const glm::mat3& matrix);
-sf::Transform toSfmlTransform(const glm::mat3& matrix);
 void resizeLinePoints(glm::vec2& pointA, glm::vec2& pointB, float newLength);
+
+struct EuclideanTransformation3D
+{
+    glm::vec3 offset{};
+    glm::vec3 rotationPoint{};
+    glm::vec3 rotationDegrees{};
+
+    [[nodiscard]] glm::mat4 getMatrix() const;
+};
+
+
+struct DimetricTransformation3D
+{
+    enum class Axis
+    {
+        X, Y, Z
+    };
+
+    Axis zeroAxis = Axis::Y;
+    float rotationAngleDegrees{};
+
+    [[nodiscard]] glm::mat4 getMatrix() const;
+};
