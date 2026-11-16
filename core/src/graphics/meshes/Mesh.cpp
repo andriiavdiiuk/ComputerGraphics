@@ -57,11 +57,16 @@ void Mesh<Ver>::upload() const
 }
 
 template <typename Ver>
-void Mesh<Ver>::render(sf::Shader& shader, const sf::Glsl::Mat4& projectionView, const sf::Glsl::Mat4& model) const
+void Mesh<Ver>::setupShader(sf::Shader& shader, const sf::Glsl::Mat4& projectionView, const sf::Glsl::Mat4& model) const
 {
     sf::Shader::bind(&shader);
     shader.setUniform("projectionView", projectionView);
     shader.setUniform("model", model);
+}
+
+template <typename Ver>
+void Mesh<Ver>::render() const
+{
     vao.bind();
     ebo.bind();
 
@@ -74,6 +79,14 @@ void Mesh<Ver>::render(sf::Shader& shader, const sf::Glsl::Mat4& projectionView,
     VertexBufferObject::unbind();
     IndexBufferObject::unbind();
     VertexArrayObject::unbind();
+}
+
+
+template <typename Ver>
+void Mesh<Ver>::render(sf::Shader& shader, const sf::Glsl::Mat4& projectionView, const sf::Glsl::Mat4& model) const
+{
+    setupShader(shader, projectionView, model);
+    render();
 }
 
 template struct Mesh<Vertex<glm::vec2>>;

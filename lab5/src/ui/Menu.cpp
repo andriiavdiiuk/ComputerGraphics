@@ -5,7 +5,7 @@
 #include "data/SvgParser.hpp"
 #include "utils/UiUtils.hpp"
 
-static void drawEuclideanTransformationEditor(EuclideanTransformation3D& params)
+static void drawEuclideanTransformation3DEditor(EuclideanTransformation3D& params)
 {
     bool changed = false;
 
@@ -135,11 +135,11 @@ static void drawAnimationEditor(MenuParams& params)
 {
     if (ImGui::CollapsingHeader("Animation Start" IMGUI_UNIQUE_ID, ImGuiTreeNodeFlags_DefaultOpen))
     {
-        drawEuclideanTransformationEditor(params.euclideanTransformationStart);
+        drawEuclideanTransformation3DEditor(params.euclideanTransformationStart);
     }
     if (ImGui::CollapsingHeader("Animation Target" IMGUI_UNIQUE_ID, ImGuiTreeNodeFlags_DefaultOpen))
     {
-        drawEuclideanTransformationEditor(params.euclideanTransformationTarget);
+        drawEuclideanTransformation3DEditor(params.euclideanTransformationTarget);
     }
     ImGui::Checkbox("Animate" IMGUI_UNIQUE_ID, &params.animate);
     ImGui::InputFloat(
@@ -163,7 +163,7 @@ void drawMenu(MenuParams& params)
 
     if (ImGui::CollapsingHeader("Euclidean" IMGUI_UNIQUE_ID, ImGuiTreeNodeFlags_DefaultOpen))
     {
-        drawEuclideanTransformationEditor(params.euclideanTransformation);
+        drawEuclideanTransformation3DEditor(params.euclideanTransformation);
     }
 
     if (ImGui::CollapsingHeader("Animation" IMGUI_UNIQUE_ID, ImGuiTreeNodeFlags_DefaultOpen))

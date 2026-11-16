@@ -17,18 +17,38 @@ static CurvePoint makeCircle(float x, float y, glm::vec4 color)
     };
 }
 
+static glm::vec4 parseColor(const unsigned long color)
+{
+    return {
+        ((color      ) & 0xFF) / 255,
+        ((color >>  8) & 0xFF) / 255,
+        ((color >> 16) & 0xFF) / 255,
+        ((color >> 24) & 0xFF) / 255
+    };
+}
+
 ThirdDegreeCurves parseSvg(const std::string& filePath)
 {
     ThirdDegreeCurves result;
 
-    NSVGimage* image =
-        nsvgParseFromFile(filePath.c_str(), "px", 96);
+    NSVGimage* image =nsvgParseFromFile(filePath.c_str(), "px", 96);
 
     if (!image)
         return result;
 
     for (auto shape = image->shapes; shape; shape = shape->next)
     {
+        glm::vec4 fillColor = colors::BLACK;
+
+        if (shape->fill.type == NSVG_PAINT_COLOR)
+            fillColor = parseColor(shape->fill.color);
+
+        else if (shape->stroke.type == NSVG_PAINT_COLOR)
+            fillColor = parseColor(shape->stroke.color);
+
+        fillColor.a = fillColor.a * shape->opacity;
+
+
         for (auto path = shape->paths; path; path = path->next)
         {
             if (path->npts < 4)
@@ -59,7 +79,7 @@ ThirdDegreeCurves parseSvg(const std::string& filePath)
                 size_t d = svgPath.points.size();
                 svgPath.points.push_back(makeCircle(p[6], p[7],colors::BLACK));
 
-                svgPath.curves.push_back({
+                ThirdDegreeCurve curve = {
                     .point_a = currentAnchor,
                     .point_b = b,
                     .point_c = c,
@@ -67,8 +87,12 @@ ThirdDegreeCurves parseSvg(const std::string& filePath)
                     .weight_a = 1,
                     .weight_b = 1,
                     .weight_c = 1,
-                    .weight_d = 1
-                });
+                    .weight_d = 1,
+                };
+
+                curve.color = fillColor;
+
+                svgPath.curves.push_back(curve);
 
                 currentAnchor = d;
             }

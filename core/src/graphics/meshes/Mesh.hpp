@@ -22,7 +22,10 @@ struct Mesh
 
     void upload() const;
 
+    void setupShader(sf::Shader& shader, const sf::Glsl::Mat4& projectionView, const sf::Glsl::Mat4& model) const;
+
     void render(sf::Shader& shader, const sf::Glsl::Mat4& projectionView, const sf::Glsl::Mat4& model) const;
+    void render() const;
 };
 
 extern template struct Mesh<Vertex<glm::vec2>>;
