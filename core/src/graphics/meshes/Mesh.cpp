@@ -68,16 +68,27 @@ template <typename Ver>
 void Mesh<Ver>::render() const
 {
     vao.bind();
-    ebo.bind();
+    if (!indices.empty()) {
+        ebo.bind();
 
-    glDrawElements(
-        primitive,
-        static_cast<GLsizei>(indices.size()),
-        GL_UNSIGNED_INT,
-        nullptr
-    );
+        glDrawElements(
+            primitive,
+            static_cast<GLsizei>(indices.size()),
+            GL_UNSIGNED_INT,
+            nullptr
+        );
+
+        IndexBufferObject::unbind();
+    }
+    else {
+        glDrawArrays(
+            primitive,
+            0,
+            static_cast<GLsizei>(vertices.size())
+        );
+    }
+
     VertexBufferObject::unbind();
-    IndexBufferObject::unbind();
     VertexArrayObject::unbind();
 }
 
